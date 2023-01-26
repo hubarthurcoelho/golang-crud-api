@@ -2,10 +2,10 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	controller "github.com/hubarthurcoelho/golang-crud-api/controllers"
+	"github.com/hubarthurcoelho/golang-crud-api/controllers/userController"
 )
 
 func userRouter(r *gin.Engine) {
 	users := r.Group("/users")
-	users.POST("/", controller.CreateUser)
+	users.POST("/", userController.CreateUserAction)
 }

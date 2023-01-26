@@ -1,19 +1,15 @@
 package models
 
 import (
-	"time"
-
 	"github.com/hubarthurcoelho/golang-crud-api/database"
 	"gorm.io/gorm"
 )
 
 type User struct {
-	ID        uint      `gorm:"AUTO_INCREMENT" json:"id"`
-	Username  string    `json:"username"`
-	Email     string    `json:"email"`
-	Password  string    `json:"password"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	BaseModel
 }
 
 type CreateUserData struct {

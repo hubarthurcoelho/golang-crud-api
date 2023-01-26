@@ -1,4 +1,4 @@
-package controller
+package userController
 
 import (
 	"net/http"
@@ -9,8 +9,8 @@ import (
 	"github.com/hubarthurcoelho/golang-crud-api/validations"
 )
 
-func CreateUser(c *gin.Context) {
-	var body models.CreateUserData
+func CreateUserAction(c *gin.Context) {
+	var body models.User
 	c.BindJSON(&body)
 
 	if errs := validations.ValidateBody(body); errs != nil {
@@ -18,12 +18,10 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	user := models.User{Username: body.Username, Email: body.Email, Password: body.Password}
-
-	if err := commands.CreateUserCommand(&user); err != nil {
+	if err := commands.CreateUserCommand(&body); err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"data": user})
+	c.JSON(http.StatusCreated, gin.H{"data": body})
 }
