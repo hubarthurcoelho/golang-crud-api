@@ -6,9 +6,10 @@ import (
 )
 
 type User struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Username string `json:"username" gorm:"column:username;type:varchar(255)"`
+	Xd       string `json:"xd" gorm:"column:xd;type:varchar(255)"`
+	Email    string `json:"email" gorm:"column:email;type:varchar(255)"`
+	Password string `json:"password" gorm:"column:password;type:varchar(255)"`
 	BaseModel
 }
 

@@ -4,7 +4,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hubarthurcoelho/golang-crud-api/config"
 	"github.com/hubarthurcoelho/golang-crud-api/database"
+	"github.com/hubarthurcoelho/golang-crud-api/database/migrations"
 	"github.com/hubarthurcoelho/golang-crud-api/router"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func SetUpAndRunApp() error {
@@ -13,16 +16,22 @@ func SetUpAndRunApp() error {
 		return envErr
 	}
 
-	dbErr := database.ConnectToDatabase()
+	r := gin.Default()
+
+	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	router.SetupRoutes(r)
+
+	r.Run()
+
+	DB, dbErr := database.ConnectToDatabase()
 	if dbErr != nil {
 		return dbErr
 	}
 
-	r := gin.Default()
-
-	router.SetupRoutes(r)
-
-	r.Run()
+	migrateErr := migrations.MigrateDB(DB)
+	if migrateErr != nil {
+		return migrateErr
+	}
 
 	return nil
 }
