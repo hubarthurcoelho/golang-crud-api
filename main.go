@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
+	"github.com/hubarthurcoelho/go-errs/errs"
 	"github.com/hubarthurcoelho/golang-crud-api/app"
 )
 
@@ -10,7 +12,8 @@ import (
 func main() {
 	err := app.SetUpAndRunApp()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(errs.E(err))
 	}
 
+	fmt.Println("started")
 }
